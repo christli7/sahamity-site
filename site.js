@@ -100,6 +100,47 @@
       });
     });
 
+    // Account deletion: an emailed code proves ownership, then the account is deleted.
+    document.querySelectorAll('.delete-form').forEach(function (form) {
+      var API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:18080' : 'https://api.sahamity.com';
+      var step = 'email';
+      var email = '';
+      var error = form.querySelector('.form-error');
+      function say(id, en) {
+        error.textContent = root.getAttribute('data-lang') === 'id' ? id : en;
+        error.hidden = false;
+      }
+      function show(next) {
+        step = next;
+        form.querySelectorAll('[data-step]').forEach(function (s) { s.hidden = s.getAttribute('data-step') !== next; });
+      }
+      function post(path, body) {
+        return fetch(API + path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+      }
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        error.hidden = true;
+        var button = form.querySelector('[data-step="' + step + '"] button');
+        button.disabled = true;
+        var done = function () { button.disabled = false; };
+        var offline = function () { say('Tidak dapat terhubung. Coba lagi.', 'Could not connect. Please try again.'); };
+        if (step === 'email') {
+          email = form.querySelector('input[type="email"]').value.trim();
+          post('/v1/auth/delete/request', { email: email, language: root.getAttribute('data-lang') === 'id' ? 'id' : 'en' }).then(function (r) {
+            if (r.ok) show('code');
+            else if (r.status === 429) say('Terlalu banyak percobaan. Coba lagi nanti.', 'Too many attempts. Please try again later.');
+            else say('Masukkan alamat email yang valid.', 'Enter a valid email address.');
+          }).catch(offline).then(done);
+        } else {
+          post('/v1/auth/delete/confirm', { email: email, code: form.querySelector('input[inputmode="numeric"]').value.trim() }).then(function (r) {
+            if (r.ok) show('done');
+            else if (r.status === 429) say('Terlalu banyak percobaan. Coba lagi nanti.', 'Too many attempts. Please try again later.');
+            else say('Kode salah atau kedaluwarsa. Akun Anda belum dihapus.', 'That code is wrong or has expired. Your account has not been deleted.');
+          }).catch(offline).then(done);
+        }
+      });
+    });
+
     // Seamless ticker tape: duplicate its content once.
     var tape = document.getElementById('tape');
     if (tape) tape.innerHTML += tape.innerHTML;
