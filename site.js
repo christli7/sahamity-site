@@ -1,4 +1,4 @@
-// Sahamity website: language (asked on first visit, then remembered), motion and the app tour.
+// Sahamity website: language and theme (asked on first visit, then remembered), motion and the app tour.
 (function () {
   var KEY = 'sahamity.lang';
   var root = document.documentElement;
@@ -12,6 +12,21 @@
       b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
     });
     if (remember) { try { localStorage.setItem(KEY, lang); } catch (e) {} }
+  }
+
+  // Theme: the head script sets it before first paint; the app screenshots follow it.
+  var THEME_KEY = 'sahamity.theme';
+  function applyTheme(theme, remember) {
+    root.setAttribute('data-theme', theme);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#F5F2EB' : '#040508');
+    document.querySelectorAll('[data-set-theme]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-theme') === theme));
+    });
+    document.querySelectorAll('img[data-shot]').forEach(function (img) {
+      img.src = (theme === 'light' ? '/shots/light/' : '/shots/') + img.getAttribute('data-shot') + '.webp';
+    });
+    if (remember) { try { localStorage.setItem(THEME_KEY, theme); } catch (e) {} }
   }
 
   var saved = stored();
@@ -50,6 +65,13 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     apply(root.getAttribute('data-lang'), false);
+    applyTheme(root.getAttribute('data-theme') || 'dark', false);
+    document.querySelectorAll('[data-set-theme]').forEach(function (b) {
+      b.addEventListener('click', function () { applyTheme(b.getAttribute('data-set-theme'), true); });
+    });
+    document.querySelectorAll('[data-toggle-theme]').forEach(function (b) {
+      b.addEventListener('click', function () { applyTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light', true); });
+    });
     document.querySelectorAll('[data-set-lang]').forEach(function (b) {
       b.addEventListener('click', function () { apply(b.getAttribute('data-set-lang'), true); });
     });
@@ -75,15 +97,6 @@
         if (a.getAttribute('href') !== '#') return;
         e.preventDefault();
         alert(root.getAttribute('data-lang') === 'id' ? 'Segera hadir!' : 'Coming soon!');
-      });
-    });
-
-    // Billing period toggle
-    document.querySelectorAll('[data-billing]').forEach(function (b) {
-      if (b.tagName !== 'BUTTON') return;
-      b.addEventListener('click', function () {
-        root.setAttribute('data-billing', b.getAttribute('data-billing'));
-        document.querySelectorAll('button[data-billing]').forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
       });
     });
 

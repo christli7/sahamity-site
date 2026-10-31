@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id" data-lang="id" data-billing="yearly">
+<html lang="id" data-lang="id">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,6 +12,7 @@
   <meta property="og:url" content="https://sahamity.com/" />
   <link rel="canonical" href="https://sahamity.com/" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script>(function(){var t;try{t=localStorage.getItem('sahamity.theme')}catch(e){}if(t!=='light'&&t!=='dark')t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.setAttribute('data-theme',t)})()</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -26,7 +27,7 @@
     <defs>
       <linearGradient id="g-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7e6b0"/><stop offset=".5" stop-color="#e2c16e"/><stop offset="1" stop-color="#b8893a"/></linearGradient>
       <symbol id="mark" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="#0B1220" stroke="rgba(216,180,90,.55)" stroke-width="1.5"/><rect x="23.4" y="58.4" width="9.8" height="16.8" rx="2" fill="#D8B45A"/><rect x="38.8" y="48.6" width="9.8" height="26.6" rx="2" fill="#D8B45A"/><rect x="54.2" y="38.8" width="9.8" height="36.4" rx="2" fill="#D8B45A"/><rect x="69.6" y="29" width="9.8" height="46.2" rx="2" fill="#D8B45A"/><line x1="22" y1="50" x2="79.4" y2="20.6" stroke="#F3F1EA" stroke-width="4.2" stroke-linecap="round"/></symbol>
-      <symbol id="status-icons" viewBox="0 0 66 12"><g fill="#fff"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="4.5" y="6" width="3" height="6" rx="1"/><rect x="9" y="3.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="1" width="3" height="11" rx="1"/><path d="M28 3.2a9 9 0 0 1 6.2 2.4l1.1-1.2A10.6 10.6 0 0 0 28 1.6a10.6 10.6 0 0 0-7.3 2.8l1.1 1.2A9 9 0 0 1 28 3.2Zm0 3.2a5.9 5.9 0 0 1 4 1.6l1.1-1.2A7.5 7.5 0 0 0 28 4.8a7.5 7.5 0 0 0-5.1 2l1.1 1.2a5.9 5.9 0 0 1 4-1.6Zm0 3.1c.7 0 1.4.3 1.9.7L28 12.2l-1.9-2a2.8 2.8 0 0 1 1.9-.7Z"/><rect x="41" y="1" width="21" height="10.5" rx="3" fill="none" stroke="#fff" stroke-opacity=".45"/><rect x="42.6" y="2.6" width="15" height="7.3" rx="1.8"/><path d="M63.3 4.3v4a1.9 1.9 0 0 0 0-4Z" fill-opacity=".45"/></g></symbol>
+      <symbol id="status-icons" viewBox="0 0 66 12"><g fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="4.5" y="6" width="3" height="6" rx="1"/><rect x="9" y="3.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="1" width="3" height="11" rx="1"/><path d="M28 3.2a9 9 0 0 1 6.2 2.4l1.1-1.2A10.6 10.6 0 0 0 28 1.6a10.6 10.6 0 0 0-7.3 2.8l1.1 1.2A9 9 0 0 1 28 3.2Zm0 3.2a5.9 5.9 0 0 1 4 1.6l1.1-1.2A7.5 7.5 0 0 0 28 4.8a7.5 7.5 0 0 0-5.1 2l1.1 1.2a5.9 5.9 0 0 1 4-1.6Zm0 3.1c.7 0 1.4.3 1.9.7L28 12.2l-1.9-2a2.8 2.8 0 0 1 1.9-.7Z"/><rect x="41" y="1" width="21" height="10.5" rx="3" fill="none" stroke="currentColor" stroke-opacity=".45"/><rect x="42.6" y="2.6" width="15" height="7.3" rx="1.8"/><path d="M63.3 4.3v4a1.9 1.9 0 0 0 0-4Z" fill-opacity=".45"/></g></symbol>
     </defs>
   </svg>
 
@@ -34,8 +35,12 @@
     <div class="card">
       <svg class="mark" aria-hidden="true"><use href="#mark"/></svg>
       <span class="kicker">Sahamity</span>
-      <h2 id="lp-title">Pilih bahasa<em>Choose your language</em></h2>
+      <h2 id="lp-title">Pilih tampilan &amp; bahasa<em>Choose your look &amp; language</em></h2>
       <p>Bisa diubah kapan saja &nbsp;·&nbsp; Change it anytime</p>
+      <div class="theme-pick" role="group" aria-label="Tampilan / Appearance">
+        <button type="button" data-set-theme="light" aria-pressed="false"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>Terang · Light</button>
+        <button type="button" data-set-theme="dark" aria-pressed="false"><svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a7 7 0 0 0 10.7 10.7Z"/></svg>Gelap · Dark</button>
+      </div>
       <div class="opts">
         <button type="button" data-pick-lang="id"><span class="flag">ID</span><span>Bahasa Indonesia<small>Lanjutkan dalam Bahasa Indonesia</small></span></button>
         <button type="button" data-pick-lang="en"><span class="flag">EN</span><span>English<small>Continue in English</small></span></button>
@@ -55,6 +60,7 @@
         <button type="button" data-set-lang="id" aria-pressed="true">ID</button>
         <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
       </div>
+      <button type="button" class="theme-btn" data-toggle-theme aria-label="Mode terang atau gelap / Light or dark mode"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a7 7 0 0 0 10.7 10.7Z"/></svg></button>
       <a class="btn btn-gold get" href="#download"><span lang="id">Unduh</span><span lang="en">Get the app</span></a>
     </div>
   </header>
@@ -102,21 +108,21 @@
                 <div class="island"></div>
                 <div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div>
                 <div class="shot cycle" id="hero-shot">
-                  <img class="on" data-mkt="idx" lang="id" src="/shots/feed-id.webp" alt="Feed Sahamity: aksi korporasi terbaru di BEI" fetchpriority="high" />
-                  <img class="on" data-mkt="idx" lang="en" src="/shots/feed-en.webp" alt="Sahamity feed: latest IDX corporate actions" />
-                  <img data-mkt="us" lang="id" src="/shots/feed-us-id.webp" alt="Feed Sahamity: aksi korporasi terbaru di bursa AS" />
-                  <img data-mkt="us" lang="en" src="/shots/feed-us-en.webp" alt="Sahamity feed: latest US corporate actions" />
+                  <img class="on" data-mkt="idx" lang="id" data-shot="feed-id" alt="Feed Sahamity: aksi korporasi terbaru di BEI" fetchpriority="high" />
+                  <img class="on" data-mkt="idx" lang="en" data-shot="feed-en" alt="Sahamity feed: latest IDX corporate actions" />
+                  <img data-mkt="us" lang="id" data-shot="feed-us-id" alt="Feed Sahamity: aksi korporasi terbaru di bursa AS" />
+                  <img data-mkt="us" lang="en" data-shot="feed-us-en" alt="Sahamity feed: latest US corporate actions" />
                 </div>
                 <div class="glare"></div>
               </div>
             </div>
             <div class="comp a float d2">
-              <img lang="id" src="/shots/c-outlook-id.webp" alt="Prospek AI: Bullish, tingkat keyakinan tinggi" />
-              <img lang="en" src="/shots/c-outlook-en.webp" alt="AI outlook: Bullish, high confidence" />
+              <img lang="id" data-shot="c-outlook-id" alt="Prospek AI dengan tingkat keyakinan" />
+              <img lang="en" data-shot="c-outlook-en" alt="AI outlook with a confidence level" />
             </div>
             <div class="comp b float d3">
-              <img lang="id" src="/shots/c-trade-id.webp" alt="Rencana trading: target +8,7%, stop-loss −3,5%" />
-              <img lang="en" src="/shots/c-trade-en.webp" alt="Trading plan: +8.7% target, −3.5% stop-loss" />
+              <img lang="id" data-shot="c-trade-id" alt="Rencana trading: target, stop-loss, dan risiko" />
+              <img lang="en" data-shot="c-trade-en" alt="Trading plan: target, stop-loss and risk" />
             </div>
           </div>
         </div>
@@ -160,7 +166,7 @@
               <li><span lang="id">Bisnis.com, Kontan, CNBC Indonesia, IDNFinancials, dan lainnya</span><span lang="en">Bisnis.com, Kontan, CNBC Indonesia, IDNFinancials and more</span></li>
               <li><span lang="id">Contoh: DSSA · Rp3,1 triliun untuk lahan pusat data</span><span lang="en">Example: DSSA · Rp3.1 trillion for data-centre land</span></li>
             </ul>
-            <div class="mk-phone"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" src="/shots/feed-id.webp" alt="Feed BEI" loading="lazy" /><img lang="en" src="/shots/feed-en.webp" alt="IDX feed" loading="lazy" /></div><div class="glare"></div></div></div></div>
+            <div class="mk-phone"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" data-shot="feed-id" alt="Feed BEI" loading="lazy" /><img lang="en" data-shot="feed-en" alt="IDX feed" loading="lazy" /></div><div class="glare"></div></div></div></div>
           </article>
           <article class="market us reveal" style="--d:.12s">
             <div class="mk-head">
@@ -173,7 +179,7 @@
               <li><span lang="id">Laporan resmi SEC (8-K), Reuters, Business Wire, GlobeNewswire, dan lainnya</span><span lang="en">Official SEC filings (8-K), Reuters, Business Wire, GlobeNewswire and more</span></li>
               <li><span lang="id">Contoh: CRH · buyback US$6 miliar</span><span lang="en">Example: CRH · US$6 billion buyback</span></li>
             </ul>
-            <div class="mk-phone"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" src="/shots/feed-us-id.webp" alt="Feed bursa AS" loading="lazy" /><img lang="en" src="/shots/feed-us-en.webp" alt="US feed" loading="lazy" /></div><div class="glare"></div></div></div></div>
+            <div class="mk-phone"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" data-shot="feed-us-id" alt="Feed bursa AS" loading="lazy" /><img lang="en" data-shot="feed-us-en" alt="US feed" loading="lazy" /></div><div class="glare"></div></div></div></div>
           </article>
         </div>
       </div>
@@ -241,11 +247,11 @@
               <h3><span lang="id">Setiap aksi material, begitu terjadi.</span><span lang="en">Every material action, as it happens.</span></h3>
               <p><span lang="id">BEI dan bursa AS dalam satu feed, diperbarui setiap menit di Pro, dengan ringkasan sentimen di bagian atas.</span><span lang="en">IDX and US exchanges in one feed, refreshed every minute on Pro, with a sentiment summary on top.</span></p>
               <ul>
-                <li><span lang="id">24 jam terakhir atau 5 hari terakhir</span><span lang="en">Last 24 hours or last 5 days</span></li>
+                <li><span lang="id">24 jam terakhir, atau riwayat 3 hari (paket Gratis), 7 hari (paket Pro)</span><span lang="en">Last 24 hours, or history of 3 days (Free tier), 7 days (Pro tier)</span></li>
                 <li><span lang="id">Rupiah untuk BEI, US$ untuk saham AS</span><span lang="en">Rupiah for IDX, US$ for US stocks</span></li>
                 <li><span lang="id">Hitung mundur ke pembaruan berikutnya</span><span lang="en">Countdown to the next update</span></li>
               </ul>
-              <div class="mobile-shot"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" src="/shots/feed-id.webp" alt="" loading="lazy" /><img lang="en" src="/shots/feed-en.webp" alt="" loading="lazy" /></div><div class="glare"></div></div></div></div>
+              <div class="mobile-shot"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" data-shot="feed-id" alt="" loading="lazy" /><img lang="en" data-shot="feed-en" alt="" loading="lazy" /></div><div class="glare"></div></div></div></div>
             </article>
             <article class="chapter" data-step="1">
               <div class="idx">02 · <span lang="id">DETAIL</span><span lang="en">DETAIL</span></div>
@@ -256,7 +262,7 @@
                 <li><span lang="id">Judul asing diterjemahkan otomatis</span><span lang="en">Foreign-language headlines translated automatically</span></li>
                 <li><span lang="id">Satu tap ke artikel asli</span><span lang="en">One tap to the original article</span></li>
               </ul>
-              <div class="mobile-shot"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" src="/shots/event-us-id.webp" alt="" loading="lazy" /><img lang="en" src="/shots/event-us-en.webp" alt="" loading="lazy" /></div><div class="glare"></div></div></div></div>
+              <div class="mobile-shot"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" data-shot="event-us-id" alt="" loading="lazy" /><img lang="en" data-shot="event-us-en" alt="" loading="lazy" /></div><div class="glare"></div></div></div></div>
             </article>
             <article class="chapter" data-step="2">
               <div class="idx">03 · <span lang="id">ANALISIS AI</span><span lang="en">AI ANALYSIS</span></div>
@@ -266,17 +272,18 @@
                 <li><span lang="id">Faktor pendukung &amp; apa yang membatalkan pandangan</span><span lang="en">Supporting factors &amp; what would invalidate the view</span></li>
                 <li><span lang="id">Skenario harga bullish, dasar, dan bearish</span><span lang="en">Bull, base and bear price scenarios</span></li>
               </ul>
-              <div class="mobile-shot"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" src="/shots/analysis-id.webp" alt="" loading="lazy" /><img lang="en" src="/shots/analysis-en.webp" alt="" loading="lazy" /></div><div class="glare"></div></div></div></div>
+              <div class="mobile-shot"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" data-shot="analysis-id" alt="" loading="lazy" /><img lang="en" data-shot="analysis-en" alt="" loading="lazy" /></div><div class="glare"></div></div></div></div>
             </article>
             <article class="chapter" data-step="3">
               <div class="idx">04 · PRO</div>
               <h3><span lang="id">5X lebih banyak berita, setiap 1 menit.</span><span lang="en">5X more news, every 1 minute.</span></h3>
-              <p><span lang="id">Lihat volume feed Pro secara langsung sebelum berlangganan — per bursa, 24 jam dan 5 hari terakhir.</span><span lang="en">See live Pro feed volume before you subscribe — per exchange, last 24 hours and last 5 days.</span></p>
+              <p><span lang="id">Lihat volume feed Pro secara langsung sebelum berlangganan — per bursa, 24 jam dan 7 hari terakhir.</span><span lang="en">See live Pro feed volume before you subscribe — per exchange, last 24 hours and last 7 days.</span></p>
               <ul>
                 <li><span lang="id">Analisis AI dan trading eksklusif</span><span lang="en">Exclusive AI and trading analysis</span></li>
+                <li><span lang="id">Riwayat berita 3 hari (paket Gratis), 7 hari (paket Pro)</span><span lang="en">News history of 3 days (Free tier), 7 days (Pro tier)</span></li>
                 <li><span lang="id">Bulanan atau tahunan, hemat 17%</span><span lang="en">Monthly or yearly, save 17%</span></li>
               </ul>
-              <div class="mobile-shot"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" src="/shots/pro-id.webp" alt="" loading="lazy" /><img lang="en" src="/shots/pro-en.webp" alt="" loading="lazy" /></div><div class="glare"></div></div></div></div>
+              <div class="mobile-shot"><div class="device"><div class="screen"><div class="island"></div><div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div><div class="shot"><img lang="id" data-shot="pro-id" alt="" loading="lazy" /><img lang="en" data-shot="pro-en" alt="" loading="lazy" /></div><div class="glare"></div></div></div></div>
             </article>
           </div>
           <div class="phone-col">
@@ -286,10 +293,10 @@
                 <div class="island"></div>
                 <div class="status"><span>9:41</span><svg width="62" height="12" aria-hidden="true"><use href="#status-icons"/></svg></div>
                 <div class="shot" id="tour-shot">
-                  <img class="on" data-step="0" lang="id" src="/shots/feed-id.webp" alt="Feed" loading="lazy" /><img class="on" data-step="0" lang="en" src="/shots/feed-en.webp" alt="Feed" loading="lazy" />
-                  <img data-step="1" lang="id" src="/shots/event-us-id.webp" alt="Detail berita" loading="lazy" /><img data-step="1" lang="en" src="/shots/event-us-en.webp" alt="Story detail" loading="lazy" />
-                  <img data-step="2" lang="id" src="/shots/analysis-id.webp" alt="Analisis AI" loading="lazy" /><img data-step="2" lang="en" src="/shots/analysis-en.webp" alt="AI analysis" loading="lazy" />
-                  <img data-step="3" lang="id" src="/shots/pro-id.webp" alt="Sahamity Pro" loading="lazy" /><img data-step="3" lang="en" src="/shots/pro-en.webp" alt="Sahamity Pro" loading="lazy" />
+                  <img class="on" data-step="0" lang="id" data-shot="feed-id" alt="Feed" loading="lazy" /><img class="on" data-step="0" lang="en" data-shot="feed-en" alt="Feed" loading="lazy" />
+                  <img data-step="1" lang="id" data-shot="event-us-id" alt="Detail berita" loading="lazy" /><img data-step="1" lang="en" data-shot="event-us-en" alt="Story detail" loading="lazy" />
+                  <img data-step="2" lang="id" data-shot="analysis-id" alt="Analisis AI" loading="lazy" /><img data-step="2" lang="en" data-shot="analysis-en" alt="AI analysis" loading="lazy" />
+                  <img data-step="3" lang="id" data-shot="pro-id" alt="Sahamity Pro" loading="lazy" /><img data-step="3" lang="en" data-shot="pro-en" alt="Sahamity Pro" loading="lazy" />
                 </div>
                 <div class="glare"></div>
               </div>
@@ -311,7 +318,7 @@
             <div class="glow" aria-hidden="true"></div>
             <div class="tx"><h3><span lang="id">Skenario harga</span><span lang="en">Price scenarios</span></h3>
             <p><span lang="id">Bullish, dasar, dan bearish di atas grafik harga, dengan horizon dan metode yang jelas.</span><span lang="en">Bull, base and bear cases over the price chart, with a clear horizon and method.</span></p></div>
-            <div class="comp crop"><img lang="id" src="/shots/c-scen-id.webp" alt="Estimasi skenario harga" loading="lazy" /><img lang="en" src="/shots/c-scen-en.webp" alt="Estimated price scenarios" loading="lazy" /></div>
+            <div class="comp crop"><img lang="id" data-shot="c-scen-id" alt="Estimasi skenario harga" loading="lazy" /><img lang="en" data-shot="c-scen-en" alt="Estimated price scenarios" loading="lazy" /></div>
           </div>
           <div class="tile narrow reveal" style="--d:.1s">
             <h3><span lang="id">Setiap menit</span><span lang="en">Every minute</span></h3>
@@ -322,12 +329,12 @@
           <div class="tile reveal">
             <h3><span lang="id">Rencana trading</span><span lang="en">Trading plan</span></h3>
             <p><span lang="id">Target untung, stop-loss, dan risiko per transaksi dalam persentase dari harga entry Anda.</span><span lang="en">Gain target, stop-loss and risk per trade as percentages of your entry price.</span></p>
-            <div class="comp"><img lang="id" src="/shots/c-trade-id.webp" alt="Rencana trading" loading="lazy" /><img lang="en" src="/shots/c-trade-en.webp" alt="Trading plan" loading="lazy" /></div>
+            <div class="comp"><img lang="id" data-shot="c-trade-id" alt="Rencana trading" loading="lazy" /><img lang="en" data-shot="c-trade-en" alt="Trading plan" loading="lazy" /></div>
           </div>
           <div class="tile reveal" style="--d:.1s">
             <h3><span lang="id">Prospek &amp; keyakinan</span><span lang="en">Outlook &amp; confidence</span></h3>
             <p><span lang="id">Bullish, bearish, netral, atau belum dapat disimpulkan — selalu dengan alasannya.</span><span lang="en">Bullish, bearish, neutral or inconclusive — always with the reasoning.</span></p>
-            <div class="comp"><img lang="id" src="/shots/c-outlook-id.webp" alt="Prospek" loading="lazy" /><img lang="en" src="/shots/c-outlook-en.webp" alt="Outlook" loading="lazy" /></div>
+            <div class="comp"><img lang="id" data-shot="c-outlook-id" alt="Prospek" loading="lazy" /><img lang="en" data-shot="c-outlook-en" alt="Outlook" loading="lazy" /></div>
           </div>
           <div class="tile narrow reveal">
             <h3><span lang="id">Mata uang yang tepat</span><span lang="en">The right currency</span></h3>
@@ -351,10 +358,6 @@
           <span class="kicker"><span lang="id">Harga</span><span lang="en">Pricing</span></span>
           <h2><span lang="id">Mulai gratis. <span class="grad">Naik ke Pro</span> kapan saja.</span><span lang="en">Start free. <span class="grad">Go Pro</span> anytime.</span></h2>
         </div>
-        <div class="billing reveal" role="group" aria-label="Billing period">
-          <button type="button" data-billing="monthly" aria-pressed="false"><span lang="id">Bulanan</span><span lang="en">Monthly</span></button>
-          <button type="button" data-billing="yearly" aria-pressed="true"><span lang="id">Tahunan</span><span lang="en">Yearly</span><em>−17%</em></button>
-        </div>
         <div class="plans">
           <div class="plan reveal">
             <div class="name"><span lang="id">Gratis</span><span lang="en">Free</span></div>
@@ -363,20 +366,32 @@
             <ul>
               <li><span lang="id">Feed berita BEI &amp; AS</span><span lang="en">IDX &amp; US news feed</span></li>
               <li><span lang="id">Ringkasan dan analisis dasar</span><span lang="en">Summary and core analysis</span></li>
+              <li><span lang="id">Riwayat berita 3 hari</span><span lang="en">3-day news history</span></li>
               <li class="off"><span lang="id">5X lebih banyak berita setiap 1 menit</span><span lang="en">5X more news every 1 minute</span></li>
               <li class="off"><span lang="id">Prospek, rencana trading, skenario harga</span><span lang="en">Outlook, trading plan, price scenarios</span></li>
               <li class="off"><span lang="id">Analisis teknikal &amp; fundamental</span><span lang="en">Technical &amp; fundamental analysis</span></li>
             </ul>
           </div>
           <div class="plan pro reveal" style="--d:.1s">
-            <div class="name">Sahamity Pro <span class="badge yearly"><span lang="id">PALING HEMAT</span><span lang="en">BEST VALUE</span></span></div>
-            <div class="price yearly">Rp1.000.000 <small><span lang="id">/ tahun</span><span lang="en">/ year</span></small></div>
-            <div class="price monthly">Rp100.000 <small><span lang="id">/ bulan</span><span lang="en">/ month</span></small></div>
-            <div class="sub yearly"><span lang="id">≈ Rp83.300 / bulan · hemat 17%</span><span lang="en">≈ Rp83,300 / month · save 17%</span></div>
-            <div class="sub monthly"><span lang="id">Batalkan kapan saja</span><span lang="en">Cancel anytime</span></div>
+            <div class="name">Pro <span lang="id">Bulanan</span><span lang="en">Monthly</span></div>
+            <div class="price">Rp100.000 <small><span lang="id">/ bulan</span><span lang="en">/ month</span></small></div>
+            <div class="sub"><span lang="id">Batalkan kapan saja</span><span lang="en">Cancel anytime</span></div>
             <ul>
               <li><b><span lang="id">5X lebih banyak berita setiap 1 menit</span><span lang="en">5X more news every 1 minute</span></b></li>
               <li><span lang="id">Analisis AI dan trading eksklusif</span><span lang="en">Exclusive AI and trading analysis</span></li>
+              <li><span lang="id">Riwayat berita 7 hari</span><span lang="en">7-day news history</span></li>
+              <li><span lang="id">Prospek, keyakinan, skenario harga &amp; stop-loss</span><span lang="en">Outlook, confidence, price scenarios &amp; stop-loss</span></li>
+              <li><span lang="id">Analisis teknikal &amp; fundamental</span><span lang="en">Technical &amp; fundamental analysis</span></li>
+            </ul>
+          </div>
+          <div class="plan pro best reveal" style="--d:.2s">
+            <div class="name">Pro <span lang="id">Tahunan</span><span lang="en">Yearly</span> <span class="badge"><span lang="id">PALING HEMAT</span><span lang="en">BEST VALUE</span></span></div>
+            <div class="price">Rp1.000.000 <small><span lang="id">/ tahun</span><span lang="en">/ year</span></small></div>
+            <div class="sub"><span lang="id">≈ Rp83.300 / bulan · hemat 17%</span><span lang="en">≈ Rp83,300 / month · save 17%</span></div>
+            <ul>
+              <li><b><span lang="id">5X lebih banyak berita setiap 1 menit</span><span lang="en">5X more news every 1 minute</span></b></li>
+              <li><span lang="id">Analisis AI dan trading eksklusif</span><span lang="en">Exclusive AI and trading analysis</span></li>
+              <li><span lang="id">Riwayat berita 7 hari</span><span lang="en">7-day news history</span></li>
               <li><span lang="id">Prospek, keyakinan, skenario harga &amp; stop-loss</span><span lang="en">Outlook, confidence, price scenarios &amp; stop-loss</span></li>
               <li><span lang="id">Analisis teknikal &amp; fundamental</span><span lang="en">Technical &amp; fundamental analysis</span></li>
             </ul>
