@@ -1,9 +1,10 @@
 /**
  * Generates /privacy/, /terms/, /disclaimer/ and /data-sources/ from the app's legal text,
- * so the website and the app always say the same thing.
+ * so the website and the app always say the same thing. Also refreshes the asset versions on every page.
  *
  *   npx tsx scripts/build-legal.ts
  */
+import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -58,7 +59,14 @@ function withDeleteForm(slug: string, main: string): string {
   return main.replace(/<p class="intro">[\s\S]*?<\/p>/g, (intro) => intro + DELETE_FORM.replace(/del-/g, n++ ? 'del-en-' : 'del-id-'));
 }
 
-const index = readFileSync(path.join(site, 'index.html'), 'utf8');
+// Browsers keep these files for hours, so each link carries a fingerprint of the file's contents.
+const stamped = readFileSync(path.join(site, 'index.html'), 'utf8').replace(/\/(styles\.css|site\.js)(\?v=[^"]*)?"/g, (_, file: string) => {
+  const hash = createHash('sha256').update(readFileSync(path.join(site, file))).digest('hex').slice(0, 10);
+  return `/${file}?v=${hash}"`;
+});
+writeFileSync(path.join(site, 'index.html'), stamped);
+
+const index = stamped;
 const head = index.slice(0, index.indexOf('<main>'));
 const foot = index.slice(index.indexOf('</main>') + '</main>'.length);
 
