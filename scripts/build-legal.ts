@@ -5,7 +5,7 @@
  *   npx tsx scripts/build-legal.ts
  */
 import { createHash } from 'node:crypto';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { LEGAL_CONTACT, LEGAL_DOCS, LEGAL_UPDATED, legalDocument, type LegalDocument } from '../../mobile/src/legal/content';
@@ -60,10 +60,18 @@ function withDeleteForm(slug: string, main: string): string {
 }
 
 // Browsers keep these files for hours, so each link carries a fingerprint of the file's contents.
-const stamped = readFileSync(path.join(site, 'index.html'), 'utf8').replace(/\/(styles\.css|site\.js)(\?v=[^"]*)?"/g, (_, file: string) => {
-  const hash = createHash('sha256').update(readFileSync(path.join(site, file))).digest('hex').slice(0, 10);
-  return `/${file}?v=${hash}"`;
-});
+const fingerprint = (files: string[]) => {
+  const hash = createHash('sha256');
+  for (const file of files) hash.update(readFileSync(file));
+  return hash.digest('hex').slice(0, 10);
+};
+const shots = readdirSync(path.join(site, 'shots'), { recursive: true, withFileTypes: true })
+  .filter((f) => f.isFile())
+  .map((f) => path.join(f.parentPath, f.name))
+  .sort();
+const stamped = readFileSync(path.join(site, 'index.html'), 'utf8')
+  .replace(/\/(styles\.css|site\.js)(\?v=[^"]*)?"/g, (_, file: string) => `/${file}?v=${fingerprint([path.join(site, file)])}"`)
+  .replace(/<html\b([^>]*?)(\s+data-shots="[^"]*")?>/, (_, attrs: string) => `<html${attrs} data-shots="${fingerprint(shots)}">`);
 writeFileSync(path.join(site, 'index.html'), stamped);
 
 const index = stamped;

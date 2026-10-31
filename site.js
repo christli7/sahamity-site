@@ -24,7 +24,7 @@
       b.setAttribute('aria-pressed', String(b.getAttribute('data-set-theme') === theme));
     });
     document.querySelectorAll('img[data-shot]').forEach(function (img) {
-      img.src = (theme === 'light' ? '/shots/light/' : '/shots/') + img.getAttribute('data-shot') + '.webp';
+      img.src = (theme === 'light' ? '/shots/light/' : '/shots/') + img.getAttribute('data-shot') + '.webp?v=' + root.getAttribute('data-shots');
     });
     if (remember) { try { localStorage.setItem(THEME_KEY, theme); } catch (e) {} }
   }

@@ -354,7 +354,7 @@ footer nav a { color: var(--muted); }
 .langpick { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; background: rgba(4, 5, 8, 0.72); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); animation: lp-in 0.35s ease both; }
 .langpick[hidden] { display: none; }
 .langpick .card { position: relative; width: min(440px, 100%); text-align: center; padding: 38px 28px 30px; border-radius: 30px; background: linear-gradient(170deg, rgba(226, 193, 110, 0.12), rgba(14, 15, 20, 0.96) 40%); border: 1px solid rgba(226, 193, 110, 0.4); box-shadow: 0 50px 120px rgba(0, 0, 0, 0.7); animation: lp-up 0.5s var(--ease) both; }
-.langpick .mark { width: 56px; height: 56px; margin: 0 auto 18px; }
+.langpick .mark { display: block; width: 56px; height: 56px; margin: 0 auto 18px; }
 .langpick h2 { font-size: 32px; margin: 12px 0 6px; letter-spacing: -0.8px; }
 .langpick h2 em { display: block; font-style: italic; font-size: 20px; color: var(--muted); margin-top: 4px; font-weight: 600; }
 .langpick p { color: var(--muted); margin: 0 0 26px; font-size: 14px; }
