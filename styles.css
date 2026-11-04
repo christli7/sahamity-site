@@ -383,6 +383,9 @@ footer nav a { color: var(--muted); }
 .legal .card p { font-size: 15px; margin: 0 0 10px; }
 .legal .card p:last-child { margin-bottom: 0; }
 .legal .card ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; font-size: 15px; }
+.legal .support-contact { border-color: rgba(226, 193, 110, 0.4); background: linear-gradient(170deg, rgba(226, 193, 110, 0.1), rgba(255, 255, 255, 0.012) 60%); }
+.legal .support-contact .btn { margin-top: 8px; height: 50px; }
+.legal .card a { overflow-wrap: anywhere; }
 .delete-form { margin-bottom: 14px; padding: 26px; border-radius: 22px; border: 1px solid var(--bear); }
 .delete-form h2 { font-family: var(--sans); font-size: 20px; letter-spacing: -0.3px; margin-bottom: 16px; }
 .delete-form [hidden] { display: none; }

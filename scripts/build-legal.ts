@@ -1,6 +1,7 @@
 /**
  * Generates /privacy/, /terms/, /disclaimer/ and /data-sources/ from the app's legal text,
- * so the website and the app always say the same thing. Also refreshes the asset versions on every page.
+ * so the website and the app always say the same thing, and /support/ from support-content.ts.
+ * Also refreshes the asset versions on every page.
  *
  *   npx tsx scripts/build-legal.ts
  */
@@ -9,28 +10,33 @@ import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { LEGAL_CONTACT, LEGAL_DOCS, LEGAL_UPDATED, legalDocument, type LegalDocument } from '../../mobile/src/legal/content';
+import { SUPPORT_EMAIL, support } from './support-content';
 
 const site = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const linkify = (s: string) =>
   esc(s).replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, (m) => `<a href="mailto:${m}">${m}</a>`);
 
-function body(doc: LegalDocument): string {
+// The support page also links web addresses.
+const linkifyAll = (s: string) =>
+  linkify(s).replace(/https:\/\/[^\s<]+?(?=[.,;)]?(\s|$))/g, (m) => `<a href="${m}">${m.replace(/^https:\/\//, '')}</a>`);
+
+function body(doc: LegalDocument, link = linkify): string {
   const sections = doc.sections.map((sec) => {
     const parts: string[] = [];
     let bullets: string[] = [];
     const flush = () => {
-      if (bullets.length) parts.push(`<ul>${bullets.map((b) => `<li>${linkify(b)}</li>`).join('')}</ul>`);
+      if (bullets.length) parts.push(`<ul>${bullets.map((b) => `<li>${link(b)}</li>`).join('')}</ul>`);
       bullets = [];
     };
     for (const p of sec.body) {
       if (p.startsWith('• ')) bullets.push(p.slice(2));
-      else { flush(); parts.push(`<p>${linkify(p)}</p>`); }
+      else { flush(); parts.push(`<p>${link(p)}</p>`); }
     }
     flush();
     return `<div class="card"><h2>${esc(sec.heading)}</h2>${parts.join('')}</div>`;
   });
-  return `<p class="intro">${linkify(doc.intro)}</p>${sections.join('\n')}`;
+  return `<p class="intro">${link(doc.intro)}</p>${sections.join('\n')}`;
 }
 
 // The form is the page's main action, so it sits straight after each language's introduction.
@@ -96,3 +102,23 @@ for (const slug of LEGAL_DOCS) {
   writeFileSync(path.join(site, slug, 'index.html'), page);
   console.log(`wrote /${slug}/`);
 }
+
+// Support: contact card first, then the answers.
+const supportLang = (lang: 'en' | 'id') => {
+  const d = support[lang];
+  const contact = `<div class="card support-contact"><h2>${esc(d.contact)}</h2><p>${esc(d.reply)}</p><a class="btn btn-gold" href="mailto:${SUPPORT_EMAIL}?subject=Sahamity%20support">${esc(d.button)}</a></div>`;
+  return `<div lang="${lang}"><h1>${esc(d.title)}</h1>${body(d, linkifyAll).replace('</p>', `</p>${contact}`)}</div>`;
+};
+const supportPage = (head + `<main class="legal"><div class="wrap">
+    <span class="kicker">Sahamity</span>
+    ${supportLang('id')}
+    ${supportLang('en')}
+  </div></main>` + foot)
+  .replace(/<title>[^<]*<\/title>/, '<title>Support — Sahamity</title>')
+  .replace(/<meta name="description" content="[^"]*"/, '<meta name="description" content="Help with Sahamity: subscriptions, restoring Pro, signing in, notifications, your account and how to contact us."')
+  .replace(/<link rel="canonical" href="[^"]*"/, '<link rel="canonical" href="https://sahamity.com/support/"')
+  .replace(/<div class="langpick"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/, '')
+  .replace(/href="#(markets|how|tour|pricing|download)"/g, 'href="/#$1"');
+mkdirSync(path.join(site, 'support'), { recursive: true });
+writeFileSync(path.join(site, 'support', 'index.html'), supportPage);
+console.log('wrote /support/');
