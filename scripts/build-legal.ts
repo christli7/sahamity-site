@@ -85,8 +85,12 @@ const head = index.slice(0, index.indexOf('<main>'));
 const foot = index.slice(index.indexOf('</main>') + '</main>'.length);
 
 const attr = (s: string) => esc(s).replace(/"/g, '&quot;');
-// A search snippet: the first sentence or two, cut at a word near 155 characters.
-const snippet = (s: string) => (s.length <= 155 ? s : `${s.slice(0, 152).replace(/\s+\S*$/, '')}…`);
+// A search snippet of at most 155 characters: whole sentences when they fit, else cut at a word.
+const snippet = (s: string) => {
+  if (s.length <= 155) return s;
+  const sentences = s.slice(0, 155).match(/^.*[.!?](?=\s)/)?.[0];
+  return sentences && sentences.length >= 70 ? sentences : `${s.slice(0, 152).replace(/\s+\S*$/, '')}…`;
+};
 
 /** Gives a page built from the home page's head its own title, address and description. */
 function subpage(html: string, slug: string, title: string, description: string): string {
