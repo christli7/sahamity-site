@@ -5,7 +5,7 @@
  *   node apps/site/scripts/publish.mjs            (add --dry-run to stop before the push)
  */
 import { execFileSync, execSync } from 'node:child_process';
-import { cpSync, mkdtempSync, rmSync } from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -24,6 +24,10 @@ const subject = git(site, 'log', '-1', '--format=%s');
 const dir = mkdtempSync(path.join(tmpdir(), 'sahamity-site-'));
 try {
   git(dir, 'clone', '--quiet', '--depth', '1', REPO, '.');
+  // Files removed from the site are removed from the published copy too (CNAME stays).
+  for (const file of git(dir, 'ls-files').split('\n')) {
+    if (file && file !== 'CNAME' && !existsSync(path.join(site, file))) rmSync(path.join(dir, file));
+  }
   cpSync(site, dir, { recursive: true });
   git(dir, 'checkout', '--', 'CNAME');
   git(dir, 'add', '-A');
