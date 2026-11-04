@@ -1,7 +1,7 @@
 /**
  * Generates /privacy/, /terms/, /disclaimer/ and /data-sources/ from the app's legal text,
  * so the website and the app always say the same thing, and /support/ from support-content.ts.
- * Also refreshes the asset versions on every page and writes sitemap.xml.
+ * Also refreshes the asset versions on every page and writes sitemap.xml and robots.txt.
  *
  *   npx tsx scripts/build-legal.ts
  */
@@ -139,12 +139,13 @@ mkdirSync(path.join(site, 'support'), { recursive: true });
 writeFileSync(path.join(site, 'support', 'index.html'), supportPage);
 console.log('wrote /support/');
 
-// Search engines: every page, submitted in Search Console as https://sahamity.com/sitemap.xml.
-// No robots.txt here: Cloudflare serves its managed one (with the AI-crawler rules) only while the site has none.
+// Search engines: every page (submitted in Search Console), and robots.txt pointing to it.
+// Cloudflare puts its content-signal notes on top of this robots.txt.
 const urls = ['', ...LEGAL_DOCS.map((slug) => `${slug}/`), 'support/'];
 const entries = urls.map((u) => `  <url><loc>https://sahamity.com/${u}</loc></url>`).join('\n');
 writeFileSync(
   path.join(site, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`,
 );
-console.log(`wrote /sitemap.xml (${urls.length} pages)`);
+writeFileSync(path.join(site, 'robots.txt'), 'User-agent: *\nAllow: /\n\nSitemap: https://sahamity.com/sitemap.xml\n');
+console.log(`wrote /sitemap.xml (${urls.length} pages) and /robots.txt`);
