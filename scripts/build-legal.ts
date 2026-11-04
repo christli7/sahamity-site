@@ -1,7 +1,7 @@
 /**
  * Generates /privacy/, /terms/, /disclaimer/ and /data-sources/ from the app's legal text,
  * so the website and the app always say the same thing, and /support/ from support-content.ts.
- * Also refreshes the asset versions on every page.
+ * Also refreshes the asset versions on every page and writes sitemap.xml and robots.txt.
  *
  *   npx tsx scripts/build-legal.ts
  */
@@ -84,6 +84,27 @@ const index = stamped;
 const head = index.slice(0, index.indexOf('<main>'));
 const foot = index.slice(index.indexOf('</main>') + '</main>'.length);
 
+const attr = (s: string) => esc(s).replace(/"/g, '&quot;');
+// A search snippet: the first sentence or two, cut at a word near 155 characters.
+const snippet = (s: string) => (s.length <= 155 ? s : `${s.slice(0, 152).replace(/\s+\S*$/, '')}…`);
+
+/** Gives a page built from the home page's head its own title, address and description. */
+function subpage(html: string, slug: string, title: string, description: string): string {
+  const url = `https://sahamity.com/${slug}/`;
+  return html
+    .replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`)
+    .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${attr(description)}"`)
+    .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${attr(title)}"`)
+    .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${attr(description)}"`)
+    .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${url}"`)
+    .replace(/<link rel="canonical" href="[^"]*"/, `<link rel="canonical" href="${url}"`)
+    // The site and app details describe the home page only.
+    .replace(/\s*<script type="application\/ld\+json" id="ld-home">[\s\S]*?<\/script>/, '')
+    // No first-visit picker on these pages; nav section links point home.
+    .replace(/<div class="langpick"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/, '')
+    .replace(/href="#(markets|how|tour|pricing|download)"/g, 'href="/#$1"');
+}
+
 for (const slug of LEGAL_DOCS) {
   const en = legalDocument(slug, 'en');
   const id = legalDocument(slug, 'id');
@@ -92,12 +113,7 @@ for (const slug of LEGAL_DOCS) {
     <div lang="id"><h1>${esc(id.title)}</h1><p class="updated">Terakhir diperbarui ${LEGAL_UPDATED} · ${linkify(LEGAL_CONTACT)}</p>${body(id)}</div>
     <div lang="en"><h1>${esc(en.title)}</h1><p class="updated">Last updated ${LEGAL_UPDATED} · ${linkify(LEGAL_CONTACT)}</p>${body(en)}</div>
   </div></main>`;
-  const page = (head + withDeleteForm(slug, main) + foot)
-    .replace(/<title>[^<]*<\/title>/, `<title>${esc(en.title)} — Sahamity</title>`)
-    .replace(/<link rel="canonical" href="[^"]*"/, `<link rel="canonical" href="https://sahamity.com/${slug}/"`)
-    // No first-visit picker on legal pages; nav section links point home.
-    .replace(/<div class="langpick"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/, '')
-    .replace(/href="#(markets|how|tour|pricing|download)"/g, 'href="/#$1"');
+  const page = subpage(head + withDeleteForm(slug, main) + foot, slug, `${en.title} — Sahamity`, snippet(en.intro));
   mkdirSync(path.join(site, slug), { recursive: true });
   writeFileSync(path.join(site, slug, 'index.html'), page);
   console.log(`wrote /${slug}/`);
@@ -109,16 +125,26 @@ const supportLang = (lang: 'en' | 'id') => {
   const contact = `<div class="card support-contact"><h2>${esc(d.contact)}</h2><p>${esc(d.reply)}</p><a class="btn btn-gold" href="mailto:${SUPPORT_EMAIL}?subject=Sahamity%20support">${esc(d.button)}</a></div>`;
   return `<div lang="${lang}"><h1>${esc(d.title)}</h1>${body(d, linkifyAll).replace('</p>', `</p>${contact}`)}</div>`;
 };
-const supportPage = (head + `<main class="legal"><div class="wrap">
+const supportPage = subpage(
+  head + `<main class="legal"><div class="wrap">
     <span class="kicker">Sahamity</span>
     ${supportLang('id')}
     ${supportLang('en')}
-  </div></main>` + foot)
-  .replace(/<title>[^<]*<\/title>/, '<title>Support — Sahamity</title>')
-  .replace(/<meta name="description" content="[^"]*"/, '<meta name="description" content="Help with Sahamity: subscriptions, restoring Pro, signing in, notifications, your account and how to contact us."')
-  .replace(/<link rel="canonical" href="[^"]*"/, '<link rel="canonical" href="https://sahamity.com/support/"')
-  .replace(/<div class="langpick"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/, '')
-  .replace(/href="#(markets|how|tour|pricing|download)"/g, 'href="/#$1"');
+  </div></main>` + foot,
+  'support',
+  'Support — Sahamity',
+  'Help with Sahamity: subscriptions, restoring Pro, signing in, notifications, your account and how to contact us.',
+);
 mkdirSync(path.join(site, 'support'), { recursive: true });
 writeFileSync(path.join(site, 'support', 'index.html'), supportPage);
 console.log('wrote /support/');
+
+// Search engines: every page, and where the list is.
+const urls = ['', ...LEGAL_DOCS.map((slug) => `${slug}/`), 'support/'];
+const entries = urls.map((u) => `  <url><loc>https://sahamity.com/${u}</loc></url>`).join('\n');
+writeFileSync(
+  path.join(site, 'sitemap.xml'),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`,
+);
+writeFileSync(path.join(site, 'robots.txt'), 'User-agent: *\nAllow: /\n\nSitemap: https://sahamity.com/sitemap.xml\n');
+console.log(`wrote /sitemap.xml (${urls.length} pages) and /robots.txt`);
