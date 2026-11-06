@@ -77,6 +77,8 @@ const shots = readdirSync(path.join(site, 'shots'), { recursive: true, withFileT
   .sort();
 const stamped = readFileSync(path.join(site, 'index.html'), 'utf8')
   .replace(/\/(styles\.css|site\.js)(\?v=[^"]*)?"/g, (_, file: string) => `/${file}?v=${fingerprint([path.join(site, file)])}"`)
+  // Link previews are cached by URL (Facebook, X, WhatsApp), so a new image needs a new address.
+  .replace(/\/og-image\.jpg(\?v=[^"]*)?"/g, () => `/og-image.jpg?v=${fingerprint([path.join(site, 'og-image.jpg')])}"`)
   .replace(/<html\b([^>]*?)(\s+data-shots="[^"]*")?>/, (_, attrs: string) => `<html${attrs} data-shots="${fingerprint(shots)}">`);
 writeFileSync(path.join(site, 'index.html'), stamped);
 
@@ -106,7 +108,7 @@ function subpage(html: string, slug: string, title: string, description: string)
     .replace(/\s*<script type="application\/ld\+json" id="ld-home">[\s\S]*?<\/script>/, '')
     // No first-visit picker on these pages; nav section links point home.
     .replace(/<div class="langpick"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/, '')
-    .replace(/href="#(markets|how|tour|pricing|download)"/g, 'href="/#$1"');
+    .replace(/href="#(markets|how|tour|terminal|pricing|download)"/g, 'href="/#$1"');
 }
 
 for (const slug of LEGAL_DOCS) {

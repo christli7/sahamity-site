@@ -141,6 +141,37 @@
       });
     });
 
+    // Each phone's status strip takes the colour of its screenshot's top row, as the app's own header would,
+    // so no band of a different colour sits between the strip and the screen.
+    function topColour(img) {
+      try {
+        var cv = document.createElement('canvas');
+        cv.width = 8; cv.height = 1;
+        var cx = cv.getContext('2d');
+        cx.drawImage(img, 0, 0, img.naturalWidth, 3, 0, 0, 8, 1);
+        var d = cx.getImageData(0, 0, 8, 1).data, r = 0, g = 0, b = 0;
+        for (var i = 0; i < 32; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; }
+        r = Math.round(r / 8); g = Math.round(g / 8); b = Math.round(b / 8);
+        return { bg: 'rgb(' + r + ',' + g + ',' + b + ')', fg: 0.299 * r + 0.587 * g + 0.114 * b > 150 ? '#000' : '#fff' };
+      } catch (e) { return null; }
+    }
+    function paintScreen(screen) {
+      var lang = root.getAttribute('data-lang');
+      var imgs = Array.prototype.filter.call(screen.querySelectorAll('.shot img'), function (i) { return i.getAttribute('lang') === lang; });
+      var img = imgs.filter(function (i) { return i.classList.contains('on'); })[0] || imgs[0];
+      if (!img || !img.complete || !img.naturalWidth) return;
+      var c = topColour(img);
+      if (!c) return;
+      screen.style.setProperty('--bar', c.bg);
+      screen.style.setProperty('--bar-fg', c.fg);
+    }
+    window.sahamityPaint = function () { document.querySelectorAll('.device .screen').forEach(paintScreen); };
+    document.querySelectorAll('.device .shot img').forEach(function (img) {
+      img.addEventListener('load', function () { paintScreen(img.closest('.screen')); });
+    });
+    document.querySelectorAll('[data-set-lang],[data-pick-lang]').forEach(function (b) { b.addEventListener('click', window.sahamityPaint); });
+    window.sahamityPaint();
+
     // Seamless ticker tape: duplicate its content once.
     var tape = document.getElementById('tape');
     if (tape) tape.innerHTML += tape.innerHTML;
@@ -154,6 +185,7 @@
       setInterval(function () {
         mkt = mkt === 'idx' ? 'us' : 'idx';
         heroShots.forEach(function (img) { img.classList.toggle('on', img.getAttribute('data-mkt') === mkt); });
+        window.sahamityPaint();
       }, 4200);
     }
 
@@ -210,6 +242,7 @@
           var step = en.target.getAttribute('data-step');
           chapters.forEach(function (c) { c.classList.toggle('active', c === en.target); });
           shots.forEach(function (img) { img.classList.toggle('on', img.getAttribute('data-step') === step); });
+          window.sahamityPaint();
         });
       }, { rootMargin: '-45% 0px -45% 0px' });
       chapters.forEach(function (c) { tour.observe(c); });
