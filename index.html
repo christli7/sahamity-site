@@ -48,10 +48,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=b97ed7e53d" />
-  <script src="/site.js?v=3bf40bddd4" defer></script>
+  <link rel="stylesheet" href="/styles.css?v=eb16836569" />
+  <script src="/site.js?v=dd292f1254" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#markets"><span lang="id">Lewati ke konten</span><span lang="en">Skip to content</span></a>
   <div class="noise" aria-hidden="true"></div>
   <div class="progress" aria-hidden="true"></div>
 
@@ -100,7 +101,7 @@
 
   <main>
     <!-- ───── Hero ───── -->
-    <section class="hero" id="top">
+    <section class="hero" id="top" data-name-id="Beranda" data-name-en="Home">
       <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="grid-lines" aria-hidden="true"></div>
       <div class="spot" aria-hidden="true"></div>
@@ -182,7 +183,7 @@
     </div>
 
     <!-- ───── Two markets ───── -->
-    <section id="markets">
+    <section id="markets" data-name-id="Pasar" data-name-en="Markets">
       <div class="wrap">
         <div class="section-head center reveal">
           <span class="kicker"><span lang="id">Dua bursa</span><span lang="en">Two markets</span></span>
@@ -221,7 +222,7 @@
     </section>
 
     <!-- ───── How it works ───── -->
-    <section id="how">
+    <section id="how" data-name-id="Cara kerja" data-name-en="How it works">
       <div class="wrap">
         <div class="section-head center reveal">
           <span class="kicker"><span lang="id">Cara kerja</span><span lang="en">How it works</span></span>
@@ -268,7 +269,7 @@
     </section>
 
     <!-- ───── App tour: real screens ───── -->
-    <section id="tour">
+    <section id="tour" data-name-id="Aplikasi" data-name-en="The app">
       <div class="wrap">
         <div class="section-head reveal">
           <span class="kicker"><span lang="id">Di dalam aplikasi</span><span lang="en">Inside the app</span></span>
@@ -344,7 +345,7 @@
 
 
     <!-- ───── Sahamity Terminal ───── -->
-    <section id="terminal" class="term">
+    <section id="terminal" data-name-id="Terminal" data-name-en="Terminal" class="term">
       <div class="term-glow" aria-hidden="true"></div>
       <div class="wrap">
         <div class="section-head center reveal">
@@ -365,6 +366,7 @@
             <b class="mono"><span lang="id">Rp100.000</span><span lang="en">US$5.59</span></b>
             <span class="vs-s"><span lang="id">per bulan</span><span lang="en">a month</span></span>
             <span class="vs-alt" lang="en">Rp100.000 a month in Indonesia</span>
+            <span class="vs-alt" lang="id">US$5,59 per bulan di sebagian besar negara selain Indonesia</span>
           </div>
         </div>
 
@@ -409,7 +411,7 @@
     </section>
 
     <!-- ───── Clean by design ───── -->
-    <section id="design" class="design">
+    <section id="design" data-name-id="Desain" data-name-en="Design" class="design">
       <div class="wrap">
         <div class="section-head center reveal">
           <span class="kicker"><span lang="id">Bersih sejak dirancang</span><span lang="en">Clean by design</span></span>
@@ -435,7 +437,7 @@
     </section>
 
     <!-- ───── Bento: real components ───── -->
-    <section>
+    <section id="analysis" data-name-id="Analisis" data-name-en="Analysis">
       <div class="wrap">
         <div class="section-head reveal">
           <span class="kicker"><span lang="id">Analisis Pro</span><span lang="en">Pro analysis</span></span>
@@ -475,7 +477,7 @@
     </section>
 
     <!-- ───── Pricing ───── -->
-    <section id="pricing">
+    <section id="pricing" data-name-id="Harga" data-name-en="Pricing">
       <div class="wrap">
         <div class="section-head center reveal">
           <span class="kicker"><span lang="id">Harga</span><span lang="en">Pricing</span></span>
@@ -484,7 +486,7 @@
         <div class="plans">
           <div class="plan reveal">
             <div class="name"><span lang="id">Gratis</span><span lang="en">Free</span></div>
-            <div class="price">Rp0</div>
+            <div class="price"><span lang="id">Rp0</span><span lang="en">US$0</span></div>
             <div class="sub"><span lang="id">Selamanya</span><span lang="en">Forever</span></div>
             <ul>
               <li><span lang="id">Feed berita BEI &amp; AS</span><span lang="en">IDX &amp; US news feed</span></li>
@@ -498,7 +500,8 @@
           </div>
           <div class="plan pro reveal" style="--d:.1s">
             <div class="name">Pro <span lang="id">Bulanan</span><span lang="en">Monthly</span></div>
-            <div class="price">Rp100.000 <small><span lang="id">/ bulan</span><span lang="en">/ month</span></small></div>
+            <div class="price"><span lang="id">Rp100.000</span><span lang="en">US$5.59</span> <small><span lang="id">/ bulan</span><span lang="en">/ month</span></small></div>
+            <div class="alt-price"><span lang="id">US$5,59 per bulan di sebagian besar negara selain Indonesia</span><span lang="en">Rp100.000 a month in Indonesia</span></div>
             <div class="sub"><span lang="id">Batalkan kapan saja</span><span lang="en">Cancel anytime</span></div>
             <ul>
               <li><b><span lang="id">5X lebih banyak berita setiap 1 menit</span><span lang="en">5X more news every 1 minute</span></b></li>
@@ -511,8 +514,9 @@
           </div>
           <div class="plan pro best reveal" style="--d:.2s">
             <div class="name">Pro <span lang="id">Tahunan</span><span lang="en">Yearly</span> <span class="badge"><span lang="id">PALING HEMAT</span><span lang="en">BEST VALUE</span></span></div>
-            <div class="price">Rp1.000.000 <small><span lang="id">/ tahun</span><span lang="en">/ year</span></small></div>
-            <div class="sub"><span lang="id">≈ Rp83.300 / bulan · hemat 17%</span><span lang="en">≈ Rp83,300 / month · save 17%</span></div>
+            <div class="price"><span lang="id">Rp1.000.000</span><span lang="en">US$55.90</span> <small><span lang="id">/ tahun</span><span lang="en">/ year</span></small></div>
+            <div class="alt-price"><span lang="id">US$55,90 per tahun di sebagian besar negara selain Indonesia</span><span lang="en">Rp1.000.000 a year in Indonesia</span></div>
+            <div class="sub"><span lang="id">≈ Rp83.300 / bulan · hemat 17%</span><span lang="en">≈ US$4.66 / month · save 17%</span></div>
             <ul>
               <li><b><span lang="id">5X lebih banyak berita setiap 1 menit</span><span lang="en">5X more news every 1 minute</span></b></li>
               <li><span lang="id">Analisis AI dan trading eksklusif</span><span lang="en">Exclusive AI and trading analysis</span></li>
@@ -523,12 +527,12 @@
             </ul>
           </div>
         </div>
-        <p class="plans-note reveal"><span lang="id">Harga di Indonesia. Di luar Indonesia, Pro Bulanan US$5,59 per bulan. Harga dapat berbeda per toko aplikasi dan negara.</span><span lang="en">Prices in Indonesia. Outside Indonesia, Pro Monthly is US$5.59 a month. Prices may vary by app store and country.</span></p>
+        <p class="plans-note reveal"><span lang="id">Harga dapat berbeda per toko aplikasi dan negara.</span><span lang="en">Prices may vary by app store and country.</span></p>
       </div>
     </section>
 
     <!-- ───── Finale ───── -->
-    <section class="finale" id="download">
+    <section class="finale" id="download" data-name-id="Unduh" data-name-en="Download">
       <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="wrap reveal">
         <svg class="mark" aria-hidden="true"><use href="#mark"/></svg>
@@ -545,6 +549,15 @@
       </div>
     </section>
   </main>
+
+  <!-- Section jumper: skip ahead or back a section, or jump to any one (the dots, on wide screens). -->
+  <nav class="jump" aria-label="Sections" data-jump>
+    <ol class="jump-dots"></ol>
+    <div class="jump-btns">
+      <button type="button" class="jump-btn" data-jump-prev aria-label="Previous section"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button>
+      <button type="button" class="jump-btn next" data-jump-next aria-label="Next section"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+    </div>
+  </nav>
 
   <footer>
     <div class="wrap">

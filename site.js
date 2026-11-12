@@ -232,6 +232,60 @@
       });
     }
 
+    // Section jumper: next / previous buttons, a dot per section on wide screens, and J / K on the keyboard.
+    var jump = document.querySelector('[data-jump]');
+    var parts = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
+    if (jump && parts.length > 1) {
+      var dots = jump.querySelector('.jump-dots');
+      var prevBtn = jump.querySelector('[data-jump-prev]');
+      var nextBtn = jump.querySelector('[data-jump-next]');
+      var en = function () { return root.getAttribute('data-lang') !== 'id'; };
+      var nameOf = function (s) { return s.getAttribute(en() ? 'data-name-en' : 'data-name-id') || s.id; };
+      var links = parts.map(function (s) {
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + s.id;
+        a.innerHTML = '<span></span>';
+        li.appendChild(a);
+        dots.appendChild(li);
+        return a;
+      });
+      var label = function () {
+        links.forEach(function (a, i) { a.firstChild.textContent = nameOf(parts[i]); a.setAttribute('aria-label', nameOf(parts[i])); });
+        prevBtn.setAttribute('aria-label', en() ? 'Previous section' : 'Bagian sebelumnya');
+      };
+      // The section under a line a third of the way down the screen is the current one.
+      var current = function () {
+        var line = innerHeight / 3, at = 0;
+        parts.forEach(function (s, i) { if (s.getBoundingClientRect().top <= line) at = i; });
+        return at;
+      };
+      var go = function (i) { parts[Math.max(0, Math.min(parts.length - 1, i))].scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }); };
+      var sync = function () {
+        var i = current();
+        links.forEach(function (a, j) { a.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+        var last = i >= parts.length - 1;
+        prevBtn.disabled = i === 0;
+        nextBtn.classList.toggle('top', last);
+        nextBtn.setAttribute('aria-label', last ? (en() ? 'Back to top' : 'Kembali ke atas') : en() ? 'Next section' : 'Bagian berikutnya');
+      };
+      prevBtn.addEventListener('click', function () { go(current() - 1); });
+      nextBtn.addEventListener('click', function () { var i = current(); go(i >= parts.length - 1 ? 0 : i + 1); });
+      addEventListener('keydown', function (e) {
+        if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
+        var t = e.target;
+        if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+        if (document.querySelector('#langpick:not([hidden])')) return;
+        if (e.key === 'j' || e.key === 'J') { e.preventDefault(); go(current() + 1); }
+        else if (e.key === 'k' || e.key === 'K') { e.preventDefault(); go(current() - 1); }
+      });
+      document.querySelectorAll('[data-set-lang],[data-pick-lang]').forEach(function (b) { b.addEventListener('click', function () { setTimeout(function () { label(); sync(); }, 0); }); });
+      addEventListener('scroll', sync, { passive: true });
+      addEventListener('resize', sync);
+      label();
+      sync();
+    }
+
     // App tour: the sticky phone shows the screen for the chapter in view.
     var chapters = document.querySelectorAll('.chapter');
     var shots = document.querySelectorAll('#tour-shot img');

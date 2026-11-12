@@ -25,10 +25,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=b97ed7e53d" />
-  <script src="/site.js?v=3bf40bddd4" defer></script>
+  <link rel="stylesheet" href="/styles.css?v=eb16836569" />
+  <script src="/site.js?v=dd292f1254" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="/#markets"><span lang="id">Lewati ke konten</span><span lang="en">Skip to content</span></a>
   <div class="noise" aria-hidden="true"></div>
   <div class="progress" aria-hidden="true"></div>
 
@@ -73,6 +74,15 @@
 <div class="card"><h2>Prices and fundamentals</h2><p>US fundamentals come from SEC XBRL filings. Price history and Indonesian company fundamentals, when available, come from third-party market data sources. They are delayed, not real-time, and may contain errors. Trading plans are percentages and do not need live prices.</p></div>
 <div class="card"><h2>Timing and retention</h2><p>Pro feeds update every minute and Free feeds every 5 minutes, but new items appear only when qualifying news is actually published. News, analyses and feeds are shown for 3 days (Free tier), 7 days (Pro tier), and deleted automatically 7 days after publication.</p></div></div>
   </div></main>
+
+  <!-- Section jumper: skip ahead or back a section, or jump to any one (the dots, on wide screens). -->
+  <nav class="jump" aria-label="Sections" data-jump>
+    <ol class="jump-dots"></ol>
+    <div class="jump-btns">
+      <button type="button" class="jump-btn" data-jump-prev aria-label="Previous section"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button>
+      <button type="button" class="jump-btn next" data-jump-next aria-label="Next section"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+    </div>
+  </nav>
 
   <footer>
     <div class="wrap">
