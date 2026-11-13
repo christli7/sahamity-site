@@ -677,3 +677,9 @@ html[data-theme='light'] .step, html[data-theme='light'] .tile, html[data-theme=
 .duo .device { width: 100%; min-width: 0; }
 /* A phone in a Terminal card fills the card's height, so it never floats low in a tall row. */
 .tcard .peek { flex: 1 1 auto; height: auto; min-height: 330px; margin-top: 4px; }
+/* The hero's news card is shorter than the HAKA/HAKI card it replaced: raise it beside the feed. */
+@media (min-width: 901px) { .stage .comp.b { bottom: 190px; } }
+@media (min-width: 1481px) { .stage .comp.b { right: -30px; } }
+/* The hero's News card, cut just below its text (the app's tab bar covers the rest); the frame rounds its corners. */
+.stage .comp.fade-foot { width: 320px; }
+@media (max-width: 900px) { .stage .comp.fade-foot { width: 66%; } }

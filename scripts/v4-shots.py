@@ -38,10 +38,16 @@ CARDS = {
     'c-limits': 'limits',
     'c-sectors': 'sectors',
 }
+# Cards cut out of a whole screen: the first News card (the tab bar covers its foot, so the crop ends above it).
+CROPS = {
+    'c-feed': ('news-idx', {'en': (52, 1715, 1520, 2700), 'id': (52, 1715, 1520, 2655)}),
+}
 
 
-def save(src: Path, dst: Path, width: int) -> None:
+def save(src: Path, dst: Path, width: int, box=None) -> None:
     im = Image.open(src).convert('RGB')
+    if box:
+        im = im.crop(box)
     if im.width > width:
         im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
     dst.parent.mkdir(parents=True, exist_ok=True)
@@ -64,6 +70,8 @@ def main() -> None:
             stale = OUT / 'light' / f'{name}-{lang}.webp'
             if stale.exists():
                 stale.unlink()
+        for name, (cap, boxes) in CROPS.items():
+            save(SRC / lang / 'dark' / 'phone' / f'{cap}.png', OUT / f'{name}-{lang}.webp', 1100, boxes[lang])
     print('done')
 
 
