@@ -26,8 +26,10 @@
     document.querySelectorAll('img[data-shot]').forEach(function (img) {
       var dark = '/shots/' + img.getAttribute('data-shot') + '.webp?v=' + root.getAttribute('data-shots');
       // Only some screens have a light capture; the rest keep the dark one.
-      img.onerror = theme === 'light' ? function () { img.onerror = null; img.src = dark; } : null;
-      img.src = theme === 'light' ? dark.replace('/shots/', '/shots/light/') : dark;
+      // data-fixed-theme pins a shot to one look whatever the page's theme (the light-and-dark pair).
+      var want = img.getAttribute('data-fixed-theme') || theme;
+      img.onerror = want === 'light' ? function () { img.onerror = null; img.src = dark; } : null;
+      img.src = want === 'light' ? dark.replace('/shots/', '/shots/light/') : dark;
     });
     if (remember) { try { localStorage.setItem(THEME_KEY, theme); } catch (e) {} }
   }

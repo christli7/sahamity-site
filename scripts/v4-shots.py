@@ -28,6 +28,8 @@ PHONES = {
     't-screener': 't-screener',
     't-signals': 't-signals',
     't-pulse': 't-pulse',
+    't-tech': 't-chart',
+    'reactions': 'reactions',
 }
 CARDS = {
     'c-outlook': 'outlook',
@@ -37,6 +39,8 @@ CARDS = {
     'c-reaction': 'reaction',
     'c-limits': 'limits',
     'c-sectors': 'sectors',
+    'c-summary': 'summary',
+    'c-profile': 'profile',
 }
 # Cards cut out of a whole screen: the first News card (the tab bar covers its foot, so the crop ends above it).
 CROPS = {

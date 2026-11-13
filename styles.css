@@ -683,3 +683,9 @@ html[data-theme='light'] .step, html[data-theme='light'] .tile, html[data-theme=
 /* The hero's News card, cut just below its text (the app's tab bar covers the rest); the frame rounds its corners. */
 .stage .comp.fade-foot { width: 320px; }
 @media (max-width: 900px) { .stage .comp.fade-foot { width: 66%; } }
+/* Design gallery: eight screens in two rows of four (two columns on phones). */
+@media (min-width: 901px) {
+  .gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 236px)); justify-content: center; gap: 44px 34px; width: min(1200px, 100% - 32px); margin-inline: auto; overflow: visible; }
+  .gallery figure { width: auto; }
+}
+.gallery figure:last-child { grid-column: auto; width: auto; }
