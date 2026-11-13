@@ -24,7 +24,10 @@
       b.setAttribute('aria-pressed', String(b.getAttribute('data-set-theme') === theme));
     });
     document.querySelectorAll('img[data-shot]').forEach(function (img) {
-      img.src = (theme === 'light' ? '/shots/light/' : '/shots/') + img.getAttribute('data-shot') + '.webp?v=' + root.getAttribute('data-shots');
+      var dark = '/shots/' + img.getAttribute('data-shot') + '.webp?v=' + root.getAttribute('data-shots');
+      // Only some screens have a light capture; the rest keep the dark one.
+      img.onerror = theme === 'light' ? function () { img.onerror = null; img.src = dark; } : null;
+      img.src = theme === 'light' ? dark.replace('/shots/', '/shots/light/') : dark;
     });
     if (remember) { try { localStorage.setItem(THEME_KEY, theme); } catch (e) {} }
   }

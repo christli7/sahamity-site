@@ -615,3 +615,65 @@ html[data-theme='light'] .langpick .opts button:focus-visible { background: #fff
 .jump-btn.next.top svg { transform: rotate(180deg); }
 html[data-theme='light'] .jump-btn { box-shadow: 0 12px 30px rgba(60, 45, 15, 0.14); }
 @media (max-width: 900px) { .jump-dots { display: none; } .jump-btn { width: 42px; height: 42px; } }
+
+/* ═════ v4: Liquid Glass ═════
+   The app's v4 look: clear glass panes over four soft lights (the Terminal's amber, blue, green and indigo),
+   a bright rim and a sheen across the top of each pane. Screenshots are the v4 app with Liquid Glass on. */
+:root { --glass-1: rgba(255, 255, 255, 0.075); --glass-2: rgba(255, 255, 255, 0.025); --glass-rim: rgba(255, 255, 255, 0.11); --glass-hi: rgba(255, 255, 255, 0.2); --glass-lift: 0 18px 50px rgba(0, 0, 0, 0.42), 0 1px 2px rgba(0, 0, 0, 0.3); }
+html[data-theme='light'] { --bg: #eceef4; --screen: #e9ebf2; --glass-1: rgba(255, 255, 255, 0.62); --glass-2: rgba(255, 255, 255, 0.34); --glass-rim: rgba(255, 255, 255, 0.85); --glass-hi: #fff; --glass-lift: 0 16px 44px rgba(40, 50, 95, 0.12), 0 1px 3px rgba(40, 50, 95, 0.08); }
+
+/* The lights behind the glass, fixed to the viewport so every section sits over them. */
+body::before { content: ''; position: fixed; inset: -10vmax; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(38vmax 38vmax at 88% 8%, rgba(255, 179, 64, 0.16), transparent 70%),
+    radial-gradient(40vmax 40vmax at 4% 46%, rgba(10, 132, 255, 0.15), transparent 70%),
+    radial-gradient(36vmax 36vmax at 92% 84%, rgba(48, 209, 88, 0.09), transparent 70%),
+    radial-gradient(34vmax 34vmax at 8% 98%, rgba(94, 92, 230, 0.13), transparent 70%); }
+html[data-theme='light'] body::before { background:
+    radial-gradient(38vmax 38vmax at 88% 8%, rgba(255, 159, 10, 0.12), transparent 70%),
+    radial-gradient(40vmax 40vmax at 4% 46%, rgba(0, 122, 255, 0.12), transparent 70%),
+    radial-gradient(36vmax 36vmax at 92% 84%, rgba(52, 199, 89, 0.10), transparent 70%),
+    radial-gradient(34vmax 34vmax at 8% 98%, rgba(94, 92, 230, 0.10), transparent 70%); }
+body { background: transparent; }
+.aurora i:nth-child(1) { background: radial-gradient(circle, rgba(255, 179, 64, 0.24), transparent 62%); }
+.aurora i:nth-child(2) { background: radial-gradient(circle, rgba(10, 132, 255, 0.22), transparent 60%); }
+.aurora i:nth-child(3) { background: radial-gradient(circle, rgba(94, 92, 230, 0.18), transparent 60%); }
+html[data-theme='light'] .aurora i:nth-child(2) { background: radial-gradient(circle, rgba(0, 122, 255, 0.14), transparent 60%); }
+
+/* Glass panes */
+.step, .tile, .tcard, .plan, .market, .vs-side, .alert-row {
+  background: linear-gradient(180deg, var(--glass-1), var(--glass-2));
+  border: 1px solid var(--glass-rim);
+  -webkit-backdrop-filter: blur(22px) saturate(160%); backdrop-filter: blur(22px) saturate(160%);
+  box-shadow: inset 0 1px 0 var(--glass-hi), inset 0 -1px 0 rgba(255, 255, 255, 0.04), var(--glass-lift); }
+html[data-theme='light'] .step, html[data-theme='light'] .tile, html[data-theme='light'] .tcard, html[data-theme='light'] .plan, html[data-theme='light'] .market, html[data-theme='light'] .vs-side, html[data-theme='light'] .alert-row {
+  background: linear-gradient(180deg, var(--glass-1), var(--glass-2)); border-color: var(--glass-rim); }
+.tile:hover, .tcard:hover, .step:hover { border-color: rgba(255, 179, 64, 0.38); }
+.nav .bar { -webkit-backdrop-filter: blur(24px) saturate(170%); backdrop-filter: blur(24px) saturate(170%); box-shadow: inset 0 1px 0 var(--glass-hi), var(--glass-lift); }
+
+/* Phone frame sized for the v4 captures (content area of a 393-point-wide phone). */
+.device { aspect-ratio: 390 / 800; }
+.device .shot img { object-position: top center; }
+
+/* v4 cards are shown whole. */
+.cut, .cut-haka, .cut-acc, .cut-haka-top { aspect-ratio: auto; }
+.cut img { height: auto; }
+
+/* What's new */
+.badge-pro { display: inline-block; margin-bottom: 14px; padding: 4px 11px; border-radius: 999px; font: 700 11px/1.4 var(--sans); letter-spacing: 1.5px; text-transform: uppercase; color: #0b0904; background: var(--gold); }
+.tile .fine { margin-top: 12px; font-size: 12.5px; color: var(--faint); }
+.tile .peek { margin: 24px -32px -32px; height: 300px; overflow: hidden; display: flex; justify-content: center; -webkit-mask: linear-gradient(#000 70%, transparent); mask: linear-gradient(#000 70%, transparent); }
+.tile .peek .device { flex: none; width: min(250px, 80%); align-self: flex-start; transition: transform 0.8s var(--ease); }
+.tile:hover .peek .device { transform: translateY(-12px); }
+.alert-stack { position: relative; margin-top: 26px; display: grid; gap: 10px; }
+.alert-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 18px; }
+.alert-row i { flex: none; width: 32px; height: 32px; border-radius: 9px; background: url('/logo.png') center / cover; }
+.alert-row b { display: block; font-size: 13.5px; }
+.alert-row span { font-size: 13px; color: var(--muted); }
+.illus { justify-self: end; font-size: 11px; color: var(--faint); }
+.duo { justify-self: end; width: 100%; max-width: 400px; height: 440px; padding: 0 4px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; -webkit-mask: linear-gradient(#000 72%, transparent); mask: linear-gradient(#000 72%, transparent); }
+.duo .device:nth-child(2) { margin-top: 40px; }
+@media (max-width: 900px) { .tile .peek { margin: 22px -24px -24px; } .duo { margin-top: 24px; height: 380px; } }
+.duo .device { width: 100%; min-width: 0; }
+/* A phone in a Terminal card fills the card's height, so it never floats low in a tall row. */
+.tcard .peek { flex: 1 1 auto; height: auto; min-height: 330px; margin-top: 4px; }
