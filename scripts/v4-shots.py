@@ -2,8 +2,10 @@
 
     python apps/site/scripts/v4-shots.py
 
-Writes apps/site/shots/<name>-<lang>.webp (dark) and apps/site/shots/light/<name>-<lang>.webp for the screens
-captured in light too. A light shot that has no light capture is removed, so the site falls back to the dark one.
+Writes apps/site/shots/<name>-<lang>.webp (dark) and apps/site/shots/light/<name>-<lang>.webp (light).
+Phone screens come from promo-assets-v4/<lang>/<theme>/phone/, cards from promo-assets-v4/<lang>/cards/ (dark) and
+promo-assets-v4/<lang>/light/cards/ (light). A light shot with no light capture is removed, so the site falls back
+to the dark one.
 """
 from pathlib import Path
 
@@ -34,6 +36,7 @@ PHONES = {
 CARDS = {
     'c-outlook': 'outlook',
     'c-trade': 'trade',
+    'c-scen': 'scenarios',
     'c-haka': 'haka',
     'c-acc': 'acc',
     'c-reaction': 'reaction',
@@ -43,8 +46,13 @@ CARDS = {
     'c-profile': 'profile',
 }
 # Cards cut out of a whole screen: the first News card (the tab bar covers its foot, so the crop ends above it).
+# Boxes per theme, because the dark and light captures were taken at different moments and the card sits at a
+# different height (measured on the captures of 12 Nov 2026).
 CROPS = {
-    'c-feed': ('news-idx', {'en': (52, 1715, 1520, 2700), 'id': (52, 1715, 1520, 2655)}),
+    'c-feed': ('news-idx', {
+        'dark': {'en': (52, 1715, 1520, 2700), 'id': (52, 1715, 1520, 2655)},
+        'light': {'en': (52, 1521, 1520, 2506), 'id': (52, 1713, 1520, 2653)},
+    }),
 }
 
 
@@ -58,24 +66,25 @@ def save(src: Path, dst: Path, width: int, box=None) -> None:
     im.save(dst, 'WEBP', quality=84, method=6)
 
 
+def light_or_remove(src: Path, dst: Path, width: int, box=None) -> None:
+    if src.exists():
+        save(src, dst, width, box)
+    elif dst.exists():
+        dst.unlink()
+
+
 def main() -> None:
     (OUT / 'light').mkdir(parents=True, exist_ok=True)
     for lang in ('en', 'id'):
         for name, cap in PHONES.items():
             save(SRC / lang / 'dark' / 'phone' / f'{cap}.png', OUT / f'{name}-{lang}.webp', 1179)
-            light = SRC / lang / 'light' / 'phone' / f'{cap}.png'
-            dst = OUT / 'light' / f'{name}-{lang}.webp'
-            if light.exists():
-                save(light, dst, 1179)
-            elif dst.exists():
-                dst.unlink()
+            light_or_remove(SRC / lang / 'light' / 'phone' / f'{cap}.png', OUT / 'light' / f'{name}-{lang}.webp', 1179)
         for name, cap in CARDS.items():
             save(SRC / lang / 'cards' / f'{cap}.png', OUT / f'{name}-{lang}.webp', 1100)
-            stale = OUT / 'light' / f'{name}-{lang}.webp'
-            if stale.exists():
-                stale.unlink()
+            light_or_remove(SRC / lang / 'light' / 'cards' / f'{cap}.png', OUT / 'light' / f'{name}-{lang}.webp', 1100)
         for name, (cap, boxes) in CROPS.items():
-            save(SRC / lang / 'dark' / 'phone' / f'{cap}.png', OUT / f'{name}-{lang}.webp', 1100, boxes[lang])
+            save(SRC / lang / 'dark' / 'phone' / f'{cap}.png', OUT / f'{name}-{lang}.webp', 1100, boxes['dark'][lang])
+            light_or_remove(SRC / lang / 'light' / 'phone' / f'{cap}.png', OUT / 'light' / f'{name}-{lang}.webp', 1100, boxes['light'][lang])
     print('done')
 
 
